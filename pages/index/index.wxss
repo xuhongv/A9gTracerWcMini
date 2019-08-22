@@ -3,7 +3,7 @@ map {
   height: 100vh;
 }
 
-.controls {
+.add {
   position: fixed;
   bottom: 20px;
   height: 100rpx;
@@ -13,18 +13,29 @@ map {
   line-height: 100rpx;
   justify-content: center;
   text-align: center;
-  opacity:0.8;
+  opacity: 0.8;
+}
 
+.user {
+  background: rgb(226, 224, 224);
+  position: absolute;
+  border-radius: 50%;
+  right:30rpx;
+  bottom: 50px;
+  height: 44rpx;
+  width: 44rpx;
+  padding: 10px;
+   opacity: 0.8;
 }
 
 .item-para-iccid {
-  background: #00BFFF;
+  background: #00bfff;
   border-radius: 17px;
 }
 
 .item-para-sacn {
-  background: #1E90FF;
-   border-radius:  17px;
+  background: #1e90ff;
+  border-radius: 17px;
 }
 
 .item {
