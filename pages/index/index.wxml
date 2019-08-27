@@ -18,3 +18,7 @@
     </cover-view>
   </map>
 </view>
+
+<modal hidden="{{hiddenmodalput}}" title="请输入开发板IMEI" confirm-text="提交" cancel-text="取消" bindcancel="cancel" bindconfirm="confirm">
+  <input type='text' placeholder="在此输入新名字" bindinput='inputDeviceIMEI' cursor-spacing='100' value='{{deviceIMEI}}' auto-focus/>
+</modal>
