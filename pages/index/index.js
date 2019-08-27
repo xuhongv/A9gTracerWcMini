@@ -9,8 +9,6 @@ var qqmapsdk;
 // 转换请求：https://lbs.qq.com/webservice_v1/guide-convert.html 
 // 根据坐标转换: https://lbs.qq.com/qqmap_wx_jssdk/method-reverseGeocoder.html
 // 微信 腾讯地图开发文档：https://developers.weixin.qq.com/miniprogram/dev/component/map.html
-
-
 Page({
   data: {
     client: null,
@@ -48,47 +46,47 @@ Page({
       }
     }],
   },
-  onLoad: function() {
+  onClickInput: function() {
 
   },
   onClickScan: function() {
     let that = this;
-    if (this.data.client && this.data.client.connected){
-    wx.scanCode({
-      success: (res) => {
-        if (res.errMsg === 'scanCode:ok') {
-          that.data.client.subscribe('/A9g/' + res.result+'/update', function (err, granted) {
-            if (!err) {
-              that.setData({
-                devSubTopic: '/A9g/' + res.result + '/get'
-              })
-              wx.showToast({
-                title: '正在获取【' + res.result + "】的位置",
-                icon: 'none',
-                duration: 1000
-              })
-            }else{
-              console.log('订阅报错：'+err)
-            }
-          })
+    if (this.data.client && this.data.client.connected) {
+      wx.scanCode({
+        success: (res) => {
+          if (res.errMsg === 'scanCode:ok') {
+            that.data.client.subscribe('/A9g/' + res.result + '/update', function(err, granted) {
+              if (!err) {
+                that.setData({
+                  devSubTopic: '/A9g/' + res.result + '/get'
+                })
+                wx.showToast({
+                  title: '正在获取【' + res.result + "】的位置",
+                  icon: 'none',
+                  duration: 1000
+                })
+              } else {
+                console.log('订阅报错：' + err)
+              }
+            })
 
-        } else
+          } else
+            wx.showToast({
+              title: '抱歉，请认准在A9G上面的二维码。',
+              icon: 'none',
+              duration: 2000
+            })
+        },
+        fail: (res) => {
+          console.log(res);
           wx.showToast({
-            title: '抱歉，请认准在A9G上面的二维码。',
+            title: '抱歉，重新扫描。',
             icon: 'none',
             duration: 2000
           })
-      },
-      fail: (res) => {
-        console.log(res);
-        wx.showToast({
-          title: '抱歉，重新扫描。',
-          icon: 'none',
-          duration: 2000
-        })
-      }
+        }
       })
-    }else{
+    } else {
       wx.showToast({
         title: '请先连接服务器',
         icon: 'none',
@@ -100,10 +98,17 @@ Page({
   onClickRefresh: function() {
     console.log("this.data.devSubTopic:" + this.data.devSubTopic)
     if (this.data.client && this.data.client.connected) {
+      if (this.data.devSubTopic){
       this.data.client.publish(this.data.devSubTopic, 'i am  from wechat msg');
       wx.showToast({
-        title: '发布成功'
+        title: '发布成功' 
       })
+      }else
+        wx.showToast({
+          title: '请先添加设备',
+          icon: 'none',
+          duration: 2000
+        })
     } else {
       wx.showToast({
         title: '请先连接服务器',
@@ -112,8 +117,15 @@ Page({
       })
     }
   },
-  onClickInput: function() {
+  onLoad: function() {
     var that = this;
+    //获取当前时间戳 设置为 clientID
+
+    var timestamp = (new Date()).valueOf();
+    this.setData({
+      clientID: "WC-"+timestamp
+    })
+
     //开始连接
     this.data.client = mqtt.connect(host, this.data.options);
     this.data.client.on('connect', function(connack) {
@@ -128,7 +140,6 @@ Page({
     that.data.client.on("message", function(topic, payload) {
       console.log(" 收到 topic:" + topic + " , payload :" + payload);
       let obj = JSON.parse(payload);
-      //"IsFix":"3D fix","Lat":23.589680,"Lon":113.2587}
       if (obj) {
         let isGet = obj.IsFix === "3D fix" ? true : false;
         console.log(" 收到 isGet:" + isGet);
@@ -219,6 +230,5 @@ Page({
       fail: function(err) {}, //请求失败
       complete: function() {} //请求完成后执行的函数
     })
-  },
-  onPullDownRefresh: function() {}
+  }
 })

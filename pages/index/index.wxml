@@ -1,18 +1,20 @@
-<map id="map" latitude="{{latitude}}" longitude="{{longitude}}" scale="14" markers="{{markers}}" polyline="{{polyline}}" show-location>  
-  <cover-view class="user">
-    <cover-image src='../resource/refresh.png'  bindtap="onClickRefresh">
-    </cover-image>
-  </cover-view>
-  <cover-view class="add">
-    <cover-view class='item-para-iccid'>
-      <cover-view class="item" bindtap="onClickInput">
-        输入编号
+<view>
+  <map id="map" latitude="{{latitude}}" longitude="{{longitude}}" scale="14" markers="{{markers}}" polyline="{{polyline}}" show-location>
+    <cover-view class="user">
+      <cover-image src='../resource/refresh.png' bindtap="onClickRefresh">
+      </cover-image>
+    </cover-view>
+    <cover-view class="add">
+      <cover-view class='item-para-iccid'>
+        <cover-view class="item" bindtap="onClickInput">
+          输入编号
+        </cover-view>
+      </cover-view>
+      <cover-view class='item-para-sacn'>
+        <cover-view class="item" bindtap="onClickScan">
+          扫码定位
+        </cover-view>
       </cover-view>
     </cover-view>
-    <cover-view class='item-para-sacn'>
-      <cover-view class="item" bindtap="onClickScan">
-        扫码定位
-      </cover-view>
-    </cover-view>
-  </cover-view>
-</map>
+  </map>
+</view>
